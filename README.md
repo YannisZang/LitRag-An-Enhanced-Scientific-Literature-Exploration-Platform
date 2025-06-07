@@ -1,6 +1,6 @@
 # My-AI-Agent
 
-my-ai-agent/
+.
 ├── frontend/                   # React 应用
 │   ├── public/
 │   │   └── index.html          # HTML 模板
@@ -27,3 +27,4 @@ my-ai-agent/
 ├── .gitignore                  # 忽略 node_modules、环境文件等
 ├── README.md                   # 项目说明文档
 └── docker-compose.yml?         # 可选：整体容器化编排
+。
