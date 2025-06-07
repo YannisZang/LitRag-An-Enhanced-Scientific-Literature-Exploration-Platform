@@ -1,30 +1,32 @@
 # My-AI-Agent
 
+## Project Structure
+```
 .
-├── frontend/                   # React 应用
+├── frontend/                   # React application
 │   ├── public/
-│   │   └── index.html          # HTML 模板
+│   │   └── index.html          # HTML template
 │   ├── src/
-│   │   ├── App.js              # 主入口组件
-│   │   ├── Chat.js             # 聊天界面组件
-│   │   ├── index.js            # React 渲染入口
-│   │   └── styles.css          # 样式文件
-│   ├── package.json            # 前端依赖和脚本
-│   └── .env                    # 前端环境变量（如 API_BASE_URL）
-
-├── backend/                    # Node.js + Express 服务
-│   ├── services/               # 业务逻辑层
-│   │   ├── llm.js              # HF 文本生成 & OCR & 分类封装
-│   │   ├── memory.js           # LangChain 向量存储封装
-│   │   └── agent.js            # 根据任务路由和调用 AI 服务
-│   ├── server.js               # Express 应用和路由注册
-│   ├── package.json            # 后端依赖和脚本
-│   └── .env                    # HF_API_TOKEN, HF_MODEL 等
-
-├── chroma_db/                  # 本地向量数据库目录（Chroma 存储）
-│   └── *                       # Chroma 持久化文件
-
-├── .gitignore                  # 忽略 node_modules、环境文件等
-├── README.md                   # 项目说明文档
-└── docker-compose.yml?         # 可选：整体容器化编排
-。
+│   │   ├── App.js              # Main React component
+│   │   ├── Chat.js             # Chat interface component
+│   │   ├── index.js            # React entry point
+│   │   └── styles.css          # Styles
+│   ├── package.json            # Frontend dependencies & scripts
+│   └── .env                    # Frontend env vars (e.g., REACT_APP_API_BASE_URL)
+│
+├── backend/                    # Node.js + Express backend
+│   ├── services/
+│   │   ├── llm.js              # HF model wrappers (text gen, OCR, classification)
+│   │   ├── memory.js           # LangChain vector store wrapper
+│   │   └── agent.js            # Task router & AI service calls
+│   ├── server.js               # Express setup & routes
+│   ├── package.json            # Backend dependencies & scripts
+│   └── .env                    # Backend env vars (HF_API_TOKEN, HF_MODEL, etc.)
+│
+├── chroma_db/                  # Local Chroma vector database files
+│   └── *                       # Persisted vector store data
+│
+├── .gitignore                  # Ignore node_modules, env files, etc.
+├── README.md                   # Project documentation
+└── docker-compose.yml?         # (Optional) Docker Compose config
+```
