@@ -1,8 +1,9 @@
 # My-AI-Agent
 
+A RAG application with react, Node.js and langchain.
+
 ## Project Structure
 ```
-.
 ├── frontend/                   # React application
 │   ├── public/
 │   │   └── index.html          # HTML template
