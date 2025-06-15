@@ -16,7 +16,7 @@ A RAG application with react, Node.js and langchain.
 │   └── .env                    # Frontend env vars (e.g., REACT_APP_API_BASE_URL)
 │
 ├── backend/                    # Node.js + Express backend
-│   ├── services/
+│   ├── server/
 │   │   ├── llm.js              # HF model wrappers (text gen, OCR, classification)
 │   │   ├── memory.js           # LangChain vector store wrapper
 │   │   └── agent.js            # Task router & AI service calls
@@ -31,3 +31,15 @@ A RAG application with react, Node.js and langchain.
 ├── README.md                   # Project documentation
 └── docker-compose.yml?         # (Optional) Docker Compose config
 ```
+
+## set up
+
+initialize node js
+
+```
+chmod +x setup.sh
+./setup.sh
+```
+
+
+
