@@ -30,7 +30,7 @@ const spiltter = new RecursiveCharacterTextSplitter({
 
 const chunks  = await spiltter.splitDocuments(docs);
 
-//console.log(chunks);
+// console.log(chunks);
 
 // embed the chunks
 
@@ -58,7 +58,7 @@ await vectorStore.addDocuments(chunks);
 
 // create the most relevant chunks
 
-const retrievedDocs = await vectorStore.similaritySearch("what is the best way to solve a backtracking problem?", 3);
+// const retrievedDocs = await vectorStore.similaritySearch("what is the best way to solve a backtracking problem?", 3);
 
 // console.log(retrievedDocs);
 
@@ -68,7 +68,10 @@ const retrieveTool = tool(async ({query}) => {
   console.log('Retrieving docs for query: ----------------');
   console.log(query);
 
-  return 'The tools worked!';
+  const retrievedDocs = await vectorStore.similaritySearch(query, 3);
+  const serializedDocs = retrievedDocs.map(doc => doc.pageContent).join('\n');
+
+  return serializedDocs;
 }, {
   name: 'retrieve',
   description: 'Retrieve the most relevant chunks of text from the uploaded material',
