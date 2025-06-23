@@ -1,12 +1,13 @@
 #!/bin/bash
 
-# 初始化 Node.js 项目
+# initialize Node.js project
 npm init -y
 
-# 安装 LangChain 所需依赖
+# install LangChain dependencies
 npm install \
   @langchain/langgraph \
   @langchain/core \
   @langchain/community \
   @langchain/anthropic \
+  @langchain/ollama \
   zod
