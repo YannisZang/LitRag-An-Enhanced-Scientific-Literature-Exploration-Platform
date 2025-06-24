@@ -1,75 +1,55 @@
 import 'dotenv/config';
 import { ChatAnthropic } from '@langchain/anthropic';
 import { createReactAgent } from '@langchain/langgraph/prebuilt';
-import { RecursiveCharacterTextSplitter } from '@langchain/textsplitters';
-import { Document } from '@langchain/core/documents';
-// import { OpenAIEmbeddings } from '@langchain/openai';
-import { MemoryVectorStore } from "langchain/vectorstores/memory";
-import { OllamaEmbeddings } from "@langchain/ollama";
 import { tool } from '@langchain/core/tools';
+import { MemorySaver } from '@langchain/langgraph';
+import { PDFLoader } from '@langchain/community/document_loaders/fs/pdf';
 import { z } from 'zod';
+import path from "node:path";
+
+import { vectorStore, addDocumentsToVectorStore } from './embeddings.js';
 // import { HuggingFaceTransformersEmbeddings } from "langchain/community/embeddings/hf_transformers";
-
-
+// import { OpenAIEmbeddings } from '@langchain/openai';
 
 import data from './data.js';
 
 const video1 = data[0];
+const video_id = "0snEunUacZY";
 
-const docs = [new Document({ 
-  pageContent: video1.transcript,
-  metadata: {video_id: video1.video_id}
- })];
+await addDocumentsToVectorStore(video1);
 
-// splite the video into chunks
-const spiltter = new RecursiveCharacterTextSplitter({
-  chunkSize: 1000,
-  chunkOverlap: 200,
- 
-});
+// const pdfPath = "../data/TokenSim.pdf";
+// const loader = new PDFLoader(pdfPath);
+// const pdf = await loader.load();
 
-const chunks  = await spiltter.splitDocuments(docs);
-
-// console.log(chunks);
-
-// embed the chunks
 
 // const embedding = new OpenAIEmbeddings({
 //   model: "text-embedding-3-small",
 //   apiKey: process.env.OPENAI_API_KEY,
 // });
 
-// Option 2: Using Ollama Embeddings
-const embedding = new OllamaEmbeddings({
-  model: "nomic-embed-text", // or "llama2", "mistral", etc.
-  baseUrl: "http://localhost:11434", // default Ollama URL
-});
+
 
 // Test the embedding
 // const vector = await embedding.embedQuery("Your text string goes here");
 // console.log("Embedding vector length:", vector.length);
 // console.log("First 5 dimensions:", vector.slice(0, 5));
 
-// store embedding vectors
 
-const vectorStore = new MemoryVectorStore(embedding);
-
-await vectorStore.addDocuments(chunks);
-
-// create the most relevant chunks
-
-// const retrievedDocs = await vectorStore.similaritySearch("what is the best way to solve a backtracking problem?", 3);
-
-// console.log(retrievedDocs);
 
 // retrieve tool
 
-const retrieveTool = tool(async ({query}) => {
+const retrieveTool = tool(async ({query}, { configurable: { video_id }}) => {
+  
   console.log('Retrieving docs for query: ----------------');
   console.log(query);
+  // console.log(video_id);
 
-  const retrievedDocs = await vectorStore.similaritySearch(query, 3);
+  const retrievedDocs = await vectorStore.similaritySearch(query, 3, (doc) => doc.metadata.video_id = video_id );
   const serializedDocs = retrievedDocs.map(doc => doc.pageContent).join('\n');
+
+  console.log('Retrieved docs: ----------------');
+  console.log(serializedDocs);
 
   return serializedDocs;
 }, {
@@ -86,15 +66,24 @@ const llm = new ChatAnthropic({
   apiKey: process.env.ANTHROPIC_API_KEY,
 });
 
+const checkpointer = new MemorySaver();
+
 const agent = createReactAgent({
   llm,
   tools: [retrieveTool],
+  checkpointer,
 });
 
-const results = await agent.invoke({
+// testing the agent
+console.log('What is the leetcode problem?');
+const response1 = await agent.invoke(
+  {
   messages:[
-    {role: 'user', content: 'What is the best way to solve a backtracking problem?'}
+    {role: 'user', content: 'What is the best way to solve a leetcode problem?'}
   ],
-});
+  }, 
+  { configurable: { thread_id: 1, video_id } }
+);
 
-console.log(results.messages.at(-1)?.content);
+console.log(response1.messages.at(-1)?.content);
+

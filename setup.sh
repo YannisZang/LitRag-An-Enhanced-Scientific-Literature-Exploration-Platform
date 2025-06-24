@@ -1,5 +1,7 @@
 #!/bin/bash
 
+cd server
+echo "📦 Installing server dependencies..."
 # initialize Node.js project
 npm init -y
 
@@ -11,3 +13,7 @@ npm install \
   @langchain/anthropic \
   @langchain/ollama \
   zod
+
+cd ../client
+echo "📦 Installing client dependencies..."
+
