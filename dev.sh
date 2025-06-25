@@ -14,6 +14,9 @@ npm install \
   @langchain/ollama \
   zod
 
-cd ../client
-echo "📦 Installing client dependencies..."
+npm i pg
+npm install express cors @types/express
+
+cd ..
+npm create vite@latest
 
