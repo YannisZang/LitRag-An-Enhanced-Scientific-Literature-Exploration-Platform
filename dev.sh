@@ -16,6 +16,7 @@ npm install \
 
 npm i pg
 npm install express cors @types/express
+npm i pdf-parse
 
 cd ..
 npm create vite@latest

@@ -29,16 +29,16 @@ export const vectorStore = await PGVectorStore.initialize(embedding, {
 
 export const addDocumentsToVectorStore = async (documents) => {
 
-    const { transcript, video_id } = documents;
+    const { pageContent, doc_id } = documents;
     const docs = [new Document({ 
-        pageContent: transcript,
-        metadata: { video_id },
+        pageContent: pageContent,
+        metadata: { doc_id },
        })];
       
     // splite the video into chunks
     const spiltter = new RecursiveCharacterTextSplitter({
-        chunkSize: 500,
-        chunkOverlap: 100,
+        chunkSize: 1000,
+        chunkOverlap: 200,
     });
       
     const chunks  = await spiltter.splitDocuments(docs);

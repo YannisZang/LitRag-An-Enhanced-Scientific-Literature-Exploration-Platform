@@ -57,7 +57,7 @@ function App() {
         body: JSON.stringify({
           query: userMessage.text,
           thread_id: threadId,
-          video_id: "0snEunUacZY",
+          doc_id: "AlexNet", 
         }),
       });
 
@@ -97,7 +97,7 @@ function App() {
   return (
     <div className='chat-container'>
       <header className='chat-header'>
-        <h1>AI Chat</h1>
+        <h1>Paper Chat</h1>
         <button className='reset-button' onClick={resetChat}>
           <svg
             width='16'

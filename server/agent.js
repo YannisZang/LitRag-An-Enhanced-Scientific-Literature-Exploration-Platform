@@ -11,17 +11,28 @@ import { vectorStore, addDocumentsToVectorStore } from './embeddings.js';
 // import { HuggingFaceTransformersEmbeddings } from "langchain/community/embeddings/hf_transformers";
 // import { OpenAIEmbeddings } from '@langchain/openai';
 
-import data from './data.js';
+// import data from './data.js';
 
-const video1 = data[0];
+// const video1 = data[0];
 
 
-// await addDocumentsToVectorStore(video1);
 
-// const pdfPath = "../data/TokenSim.pdf";
-// const loader = new PDFLoader(pdfPath);
-// const pdf = await loader.load();
 
+const pdfPath = "../data/AlexNet.pdf";
+const pdfLoader = new PDFLoader(pdfPath);
+let docs = await pdfLoader.load();
+
+const doc_id = 'AlexNet';
+
+docs = docs.map((doc, i) => {
+  doc.doc_id = doc_id;
+  // doc.page_id = `page_${i + 1}`;
+  return doc;
+})
+
+// console.log(docs);
+
+// await addDocumentsToVectorStore(docs[0]);
 
 // const embedding = new OpenAIEmbeddings({
 //   model: "text-embedding-3-small",
@@ -39,13 +50,13 @@ const video1 = data[0];
 
 // retrieve tool
 
-const retrieveTool = tool(async ({query}, { configurable: { video_id }}) => {
+const retrieveTool = tool(async ({query}, { configurable: { doc_id }}) => {
   
   console.log('Retrieving docs for query: ----------------');
   console.log(query);
   // console.log(video_id);
 
-  const retrievedDocs = await vectorStore.similaritySearch(query, 3, { video_id});
+  const retrievedDocs = await vectorStore.similaritySearch(query, 3, { doc_id });
   const serializedDocs = retrievedDocs.map(doc => doc.pageContent).join('\n');
 
   console.log('Retrieved docs: ----------------');
