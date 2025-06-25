@@ -11,7 +11,7 @@ const embedding = new OllamaEmbeddings({
   });
 
 // PGvector
-const vectorStore = new PGVectorStore.initialize(embedding, {
+export const vectorStore = await PGVectorStore.initialize(embedding, {
     postgresConnectionOptions: {
         connectionString: process.env.DB_URL,
     },
@@ -37,8 +37,8 @@ export const addDocumentsToVectorStore = async (documents) => {
       
     // splite the video into chunks
     const spiltter = new RecursiveCharacterTextSplitter({
-        chunkSize: 1000,
-        chunkOverlap: 200,
+        chunkSize: 500,
+        chunkOverlap: 100,
     });
       
     const chunks  = await spiltter.splitDocuments(docs);

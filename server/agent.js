@@ -14,9 +14,9 @@ import { vectorStore, addDocumentsToVectorStore } from './embeddings.js';
 import data from './data.js';
 
 const video1 = data[0];
-const video_id = "0snEunUacZY";
 
-await addDocumentsToVectorStore(video1);
+
+// await addDocumentsToVectorStore(video1);
 
 // const pdfPath = "../data/TokenSim.pdf";
 // const loader = new PDFLoader(pdfPath);
@@ -45,7 +45,7 @@ const retrieveTool = tool(async ({query}, { configurable: { video_id }}) => {
   console.log(query);
   // console.log(video_id);
 
-  const retrievedDocs = await vectorStore.similaritySearch(query, 3, (doc) => doc.metadata.video_id = video_id );
+  const retrievedDocs = await vectorStore.similaritySearch(query, 3, { video_id});
   const serializedDocs = retrievedDocs.map(doc => doc.pageContent).join('\n');
 
   console.log('Retrieved docs: ----------------');
@@ -68,22 +68,9 @@ const llm = new ChatAnthropic({
 
 const checkpointer = new MemorySaver();
 
-const agent = createReactAgent({
+export const agent = createReactAgent({
   llm,
   tools: [retrieveTool],
   checkpointer,
 });
-
-// testing the agent
-console.log('What is the leetcode problem?');
-const response1 = await agent.invoke(
-  {
-  messages:[
-    {role: 'user', content: 'What is the best way to solve a leetcode problem?'}
-  ],
-  }, 
-  { configurable: { thread_id: 1, video_id } }
-);
-
-console.log(response1.messages.at(-1)?.content);
 
