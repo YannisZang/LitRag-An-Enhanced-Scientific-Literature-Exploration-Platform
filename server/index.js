@@ -1,6 +1,6 @@
 import express from 'express';
 import cors from 'cors';
-import { agent } from './agent.js';
+import { buildAgent } from './agent.js';
 
 const port = process.env.PORT || 3000;
 
@@ -14,24 +14,36 @@ app.get('/', (req, res) => {
 });
 
 app.post('/generate', async (req, res) => {
-    const { query, doc_id, thread_id } = req.body;
-    console.log(query, doc_id, thread_id);
+    const { query, doc_id, thread_id, modelType } = req.body;
+    console.log(query, doc_id, thread_id, modelType);
+
+    const agent = buildAgent(modelType);
 
     // const video_id = "0snEunUacZY";
     console.log('What is the topic of the paper?');
-    const response1 = await agent.invoke(
-    { 
-        messages:[
-            {role: 'user', content: query, }
-        ],
-    }, 
-    { configurable: { thread_id, doc_id } }
-    );
 
-    console.log(response1.messages.at(-1)?.content);
+    try {
 
-    res.send(response1.messages.at(-1)?.content);
-})
+        const response = await agent.invoke(
+        { 
+            messages:[
+                {role: 'user', content: query, }
+            ],
+        }, 
+        { configurable: { thread_id, doc_id } }
+        );
+
+        const result = response.messages.at(-1)?.content;
+
+        console.log(result);
+
+        res.send(result);
+
+    } catch (error) {
+        console.log('Error invoking agent:', error);
+        res.status(500).send('Agent invocation failed.');
+    }
+});
 
 app.listen(port, () => {
     console.log(`server is running on port ${port}`);

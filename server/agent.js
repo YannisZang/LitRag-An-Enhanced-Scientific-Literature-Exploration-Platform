@@ -66,21 +66,40 @@ const retrieveTool = tool(async ({query}, { configurable: { doc_id }}) => {
 });
 
 
-const llm = new ChatAnthropic({
+const llm_anthropic = new ChatAnthropic({
   model: 'claude-3-5-sonnet-20241022',
   apiKey: process.env.ANTHROPIC_API_KEY,
 });
 
-// const llm = new ChatOllama({
-//   model: 'mistral',
-//   baseUrl: "http://localhost:11434",
-// });
-
-const checkpointer = new MemorySaver();
-
-export const agent = createReactAgent({
-  llm,
-  tools: [retrieveTool],
-  checkpointer,
+const llm_mistral = new ChatOllama({
+  model: 'mistral',
+  baseUrl: "http://localhost:11434",
 });
+
+export const buildAgent = (modelType) =>{
+  const checkpointer = new MemorySaver();
+
+  let llm;
+
+  if (modelType='mostral') {
+    llm = llm_mistral;
+  } else if (modelType='anthropis') {
+    llm = llm_anthropic;
+  }
+
+  return createReactAgent({
+    llm,
+    tools: [retrieveTool],
+    checkpointer,
+  });
+};
+
+
+// const checkpointer = new MemorySaver();
+
+// export const agent = createReactAgent({
+//   llm,
+//   tools: [retrieveTool],
+//   checkpointer,
+// });
 

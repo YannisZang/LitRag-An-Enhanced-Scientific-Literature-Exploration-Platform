@@ -12,6 +12,7 @@ function App() {
   const [inputText, setInputText] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [threadId, setThreadId] = useState<number>(Date.now());
+  const [modelType, setModelType] = useState('anthropic');
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -58,6 +59,7 @@ function App() {
           query: userMessage.text,
           thread_id: threadId,
           doc_id: "AlexNet", 
+          modelType: modelType,
         }),
       });
 
@@ -98,6 +100,16 @@ function App() {
     <div className='chat-container'>
       <header className='chat-header'>
         <h1>Paper Chat</h1>
+        <div className='model-select'>
+          <label htmlFor='model'>Model:</label>
+          <select id='model'
+                  value={modelType}
+                  onChange={(e) => setModelType(e.target.value)}>
+                  <option value='anthropic'>Anthropic</option>
+                  <option value='mistral'>Mistral</option>
+                  <option value='ollama'>Ollama</option>
+          </select>
+        </div>
         <button className='reset-button' onClick={resetChat}>
           <svg
             width='16'

@@ -46,6 +46,40 @@ body {
   font-weight: 500;
 }
 
+.model-select {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.875rem;
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  padding: 6px 10px;
+  border-radius: 6px;
+  background-color: var(--surface-color);
+  transition: border-color 0.2s ease;
+}
+
+.model-select label {
+  font-weight: 500;
+  margin-right: 4px;
+}
+
+.model-select select {
+  background-color: transparent;
+  border: none;
+  color: var(--text-color);
+  font-size: inherit;
+  font-family: inherit;
+  outline: none;
+  cursor: pointer;
+  padding: 2px 6px;
+}
+
+.model-select select:focus {
+  border: none;
+  outline: none;
+}
+
 .reset-button {
   display: flex;
   align-items: center;
@@ -243,3 +277,4 @@ textarea::placeholder {
     font-size: 0.6rem;
   }
 }
+
