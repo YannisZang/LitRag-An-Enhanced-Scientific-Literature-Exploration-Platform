@@ -8,14 +8,9 @@ import { z } from 'zod';
 import path from "node:path";
 
 import { vectorStore, addDocumentsToVectorStore } from './embeddings.js';
+import { ChatOllama } from '@langchain/ollama';
 // import { HuggingFaceTransformersEmbeddings } from "langchain/community/embeddings/hf_transformers";
 // import { OpenAIEmbeddings } from '@langchain/openai';
-
-// import data from './data.js';
-
-// const video1 = data[0];
-
-
 
 
 const pdfPath = "../data/AlexNet.pdf";
@@ -47,7 +42,6 @@ docs = docs.map((doc, i) => {
 // console.log("First 5 dimensions:", vector.slice(0, 5));
 
 
-
 // retrieve tool
 
 const retrieveTool = tool(async ({query}, { configurable: { doc_id }}) => {
@@ -76,6 +70,11 @@ const llm = new ChatAnthropic({
   model: 'claude-3-5-sonnet-20241022',
   apiKey: process.env.ANTHROPIC_API_KEY,
 });
+
+// const llm = new ChatOllama({
+//   model: 'mistral',
+//   baseUrl: "http://localhost:11434",
+// });
 
 const checkpointer = new MemorySaver();
 
