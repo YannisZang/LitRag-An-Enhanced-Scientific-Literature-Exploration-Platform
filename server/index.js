@@ -14,13 +14,13 @@ app.get('/', (req, res) => {
 });
 
 app.post('/generate', async (req, res) => {
-    const { query, doc_id, thread_id, modelType } = req.body;
-    console.log(query, doc_id, thread_id, modelType);
+    const {query, k = 3, thread_id, modelType } = req.body;
+    // console.log(query, thread_id, modelType);
 
     const agent = buildAgent(modelType);
 
     // const video_id = "0snEunUacZY";
-    console.log('What is the topic of the paper?');
+    // console.log('What is the topic of the paper?');
 
     try {
 
@@ -30,7 +30,7 @@ app.post('/generate', async (req, res) => {
                 {role: 'user', content: query, }
             ],
         }, 
-        { configurable: { thread_id, doc_id } }
+        { configurable: { thread_id, k } }
         );
 
         const result = response.messages.at(-1)?.content;

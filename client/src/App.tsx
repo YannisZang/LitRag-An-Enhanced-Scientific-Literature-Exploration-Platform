@@ -58,7 +58,7 @@ function App() {
         body: JSON.stringify({
           query: userMessage.text,
           thread_id: threadId,
-          doc_id: "AlexNet", 
+          // doc_id: "AlexNet", 
           modelType: modelType,
         }),
       });

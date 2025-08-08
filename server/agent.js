@@ -44,19 +44,18 @@ docs = docs.map((doc, i) => {
 
 // retrieve tool
 
-const retrieveTool = tool(async ({query}, { configurable: { doc_id }}) => {
+const retrieveTool = tool(async ({query, k = 3}) => {
   
-  console.log('Retrieving docs for query: ----------------');
-  console.log(query);
-  // console.log(video_id);
+  console.log('Retrieving docs for query: ', query);
 
-  const retrievedDocs = await vectorStore.similaritySearch(query, 3, { doc_id });
+  // no filter
+  const retrievedDocs = await vectorStore.similaritySearch(query, k);
   const serializedDocs = retrievedDocs.map(doc => doc.pageContent).join('\n');
 
   console.log('Retrieved docs: ----------------');
   console.log(serializedDocs);
 
-  return serializedDocs;
+  return serializedDocs || "No Results";
 }, {
   name: 'retrieve',
   description: 'Retrieve the most relevant chunks of text from the uploaded material',
@@ -81,9 +80,9 @@ export const buildAgent = (modelType) =>{
 
   let llm;
 
-  if (modelType='mostral') {
+  if (modelType='mistral') {
     llm = llm_mistral;
-  } else if (modelType='anthropis') {
+  } else if (modelType='anthropic') {
     llm = llm_anthropic;
   }
 
