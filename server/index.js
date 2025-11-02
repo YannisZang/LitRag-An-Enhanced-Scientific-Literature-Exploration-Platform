@@ -1,6 +1,6 @@
 import express from 'express';
 import cors from 'cors';
-import { buildAgent } from './agent.js';
+import { buildAgent } from './src/agent.js';
 
 const port = process.env.PORT || 3000;
 
