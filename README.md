@@ -1,26 +1,22 @@
-# My-AI-Agent
+# LitRAG
 
-A RAG application with react, Node.js and langchain.
+A RAG web app
 
 ## Project Structure
 ```
-├── frontend/                   # React application
-│   ├── public/
-│   │   └── index.html          # HTML template
+├── client/                   # React application
 │   ├── src/
-│   │   ├── App.js              # Main React component
-│   │   ├── Chat.js             # Chat interface component
-│   │   ├── index.js            # React entry point
-│   │   └── styles.css          # Styles
+│   │   ├── App.tsx             # Main React component
+│   │   ├── main.tsx            # React entry point
 │   ├── package.json            # Frontend dependencies & scripts
 │   └── .env                    # Frontend env vars (e.g., REACT_APP_API_BASE_URL)
 │
-├── backend/                    # Node.js + Express backend
-│   ├── server/
-│   │   ├── llm.js              # HF model wrappers (text gen, OCR, classification)
-│   │   ├── memory.js           # LangChain vector store wrapper
+├── server /                    # Node.js + Express backend
+│   ├── src/
+│   │   ├── vectorize.js        # Batch import all PDFs in /data
+│   │   ├── embeddings.js       # Vector store initialization
 │   │   └── agent.js            # Task router & AI service calls
-│   ├── server.js               # Express setup & routes
+│   ├── index.js               # Express setup & routes
 │   ├── package.json            # Backend dependencies & scripts
 │   └── .env                    # Backend env vars (HF_API_TOKEN, HF_MODEL, etc.)
 │
@@ -34,11 +30,20 @@ A RAG application with react, Node.js and langchain.
 
 ## set up
 
-initialize node js
-
+### add data
+```bash
+cd server
+node vectorize.js
 ```
-chmod +x setup.sh
-./setup.sh
+
+### set up
+```bash
+npm install
+```
+
+### run project
+```bash
+npm start
 ```
 
 

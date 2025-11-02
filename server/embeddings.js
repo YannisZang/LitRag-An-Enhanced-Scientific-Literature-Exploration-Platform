@@ -30,10 +30,10 @@ export const vectorStore = await PGVectorStore.initialize(embedding, {
 
 export const addDocumentsToVectorStore = async (documents) => {
 
-    const { pageContent, doc_id } = documents;
+    const { pageContent, metadata } = documents;
     const docs = [new Document({ 
         pageContent: pageContent,
-        metadata: { doc_id },
+        metadata: metadata,
        })];
       
     // splite the infomation into chunks

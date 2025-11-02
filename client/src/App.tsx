@@ -99,7 +99,7 @@ function App() {
   return (
     <div className='chat-container'>
       <header className='chat-header'>
-        <h1>Paper Chat</h1>
+        <h1>LitRAG</h1>
         <div className='model-select'>
           <label htmlFor='model'>Model:</label>
           <select id='model'
